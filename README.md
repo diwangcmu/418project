@@ -53,23 +53,19 @@ Our idea right now is to dynamically make the threads proceed with a work queue 
 ### Schedule
 
 Week 1: 
-
-  - Implement the Go UI using Python Pygame
-  
+  - Implement the Go UI using Python Pygame 
   - Begin reading materials for Alpha-beta pruning tree and Monte-Carlo tree
   
 Week 2: 
-
   - Implement the sequential tree search algorithm for life and death problems
-  
   - Implement the parallel version of tree search algorithm 
-  
   - Analyze the performance
   
 Week 3:
   - Apply Alpha-beta algorithm on small board UI
   - Apply Monte-Carlo algorithm on small board UI
   - Begin reading materials for pattern matching
+
 Week 4: 
   - Apply pattern matching to small board
   - Try to implement neural network 
