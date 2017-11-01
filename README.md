@@ -52,9 +52,21 @@ Our idea right now is to dynamically make the threads proceed with a work queue 
 
 ### Schedule
 
-1. Implement the Go UI using Python Pygame
-2. Implement the tree search algorithm for life and death problems 
-3. Implement the tree search algorithm for life and death problems (cont.)
-4. Implement pattern matching and neural network
-5. Testing and refinement
+Week 1: 
+  Implement the Go UI using Python Pygame
+  Begin reading materials for Alpha-beta pruning tree and Monte-Carlo tree
+Week 2: 
+  Implement the sequential tree search algorithm for life and death problems
+  Implement the parallel version of tree search algorithm 
+  Analyze the performance
+Week 3:
+	Apply Alpha-beta algorithm on small board UI
+  Apply Monte-Carlo algorithm on small board UI
+  Begin reading materials for pattern matching
+Week 4: 
+  Apply pattern matching to small board
+  Try to implement neural network 
+  Try to apply the UI on larger board size
+  Testing and refinement
+
 
