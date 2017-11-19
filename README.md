@@ -75,18 +75,28 @@ Week 4:
 ### Checkpoint Report  
 
 The work done so far:
-We successfully implemented the Go UI, along with the capture rules and ending rules. The UI in Java prompts up a yellow board, and allows the users to place black and white stones in order. If a move is prohibited then the user cannot place the move, but can still place a valid move afterwards. 
-In terms of the life and death problem AI, we first debated on the model and algorithm behind the AI. Originally we decided on using Cuda and Alpha-Beta pruning, but then found that it is very hard to share messages between Cuda threads. 
+We successfully implemented the Go UI, along with the capture rules and ending rules. The UI in Java prompts up a yellow board, and allows the users to place black and white stones in order. If a move is prohibited then the user cannot place the move, but can still place a valid move afterwards.
+
+In terms of the life and death problem AI, we first debated on the model and algorithm behind the AI. Originally we decided on using Cuda and Alpha-Beta pruning, but then found that it is very hard to share messages between Cuda threads.
+
 One approach is to declare shared memory arrays in a Cuda block, which we started to implement. We also borrowed an idea from a previous project, which is to first run one branch of Alpha-Beta pruning sequentially, and then use the pruning results to run the rest in parallel. However, the bottleneck to this approach is that it is hard to find a useful and accurate heuristic for Go. Some small changes in the board state in one area can affect the entire balance of the board. Therefore the Alpha-Beta pruning returned very poor results. We decided to not go along that approach.
+
 After the unsatisfactory results with Alpha-Beta tree, we decided to implement a simple Tree search in parallel. We still used Cuda, but this time the threads are divided with respect to the combination of the first two possible moves given the current board state (e.g. black places at (3,3), and white places at (3,4)). Then the search will continue until we reached the ending stages.
+
 Here are some screenshots of the AI’s decision of whether a piece is alive or dead:
+![Black dead](images/checkpoint1.png)
+![Black unknown](images/checkpoint2.png)
+![Black dead 2](images/checkpoint3.png)
+![Black unknown 2](images/checkpoint4.png)
+
 
 Goals and Deliverables:
 We believe that our original goal of implementing an interactive tsumego (life and death problem) AI is achievable. However, the full Go game interactive AI might be a stretch. It is hard to exhaust every possibility, since there are around 3^(19*19) possibilities, resulting from each point on the board being either unoccupied, black or white. Also, we found that it is hard to implement a parallel tree search algorithm given a full game board. Therefore pattern matching is required to reduce the possibilities to search for, but we have not started on that. Therefore this becomes a “nice to have”. 
 The revised list of goals is as follows:
-Fully implemented Go life and death problem programs that respond to a user’s attempts
-Go life and death solver that gives the correct solution or indicates if there is no solution
-Small board Go AI that allows for board state evaluation
+
+- Fully implemented Go life and death problem programs that respond to a user’s attempts
+- Go life and death solver that gives the correct solution or indicates if there is no solution
+- Small board Go AI that allows for board state evaluation.
 
 Poster Session:
 We plan to show the above interactive game demos at the poster session. 
