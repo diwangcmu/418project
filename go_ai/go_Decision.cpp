@@ -10,7 +10,7 @@
 #include "readfile.h"
 using namespace std;
 
-int Monte_Carlo_Cuda(GameBoard* this_board);
+int Monte_Carlo_Cuda(GameBoard* this_board, int n);
 
 //g++ "-I/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers" \
 "-I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers" \
@@ -19,7 +19,7 @@ int Monte_Carlo_Cuda(GameBoard* this_board);
 // no-interface version
 int main(int argc, char** argv)
 {
-    int size = 19;
+    int size = 9;
     GameBoard* board = new GameBoard;
     board_construct(board, size);
 
@@ -29,9 +29,9 @@ int main(int argc, char** argv)
         //printf("aaaaa%d\n", test());
         cin >> col;
         board_addStone(board, row, col, 1);
-        //next_move = Monte_Carlo_Cuda(board);
-        next_move = board_monte_carlo(board);
-        //printf("add white stone %d\n", next_move);
+        next_move = Monte_Carlo_Cuda(board, 2);
+        //next_move = board_monte_carlo(board);
+        printf("add white stone %d\n", next_move);
         while (board_addStone(board, next_move / size, next_move % size, -1) == 0){
             next_move = rand() % (size * size);
         }
