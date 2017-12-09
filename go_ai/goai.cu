@@ -320,22 +320,29 @@ int Monte_Carlo_Cuda(GameBoard* this_board, int n) {
     // }
     // printf("\n");
 
-    int partial_num = s * s;
-    for (int idx = 0; idx < s*s; idx++){
-        int cnt = 0;
-        int sum = 0;
-        for (int i=0; i < partial_num; i++){
-            if (result[idx*partial_num + i] != -100){
-                cnt += 1;
-                sum += result[idx * partial_num + i];
-            }
-        }
-
-        if ((float(sum)/cnt) > max_val){
-            max_val = (float(sum)/cnt);
-            max_pos = idx;
+    for (int idx = 0; idx < num; idx ++){
+        if (result[idx] > max_val){
+            max_val = result[idx];
+            max_pos = move_seq[idx * n];
         }
     }
+
+    // int partial_num = s * s;
+    // for (int idx = 0; idx < s*s; idx++){
+    //     int cnt = 0;
+    //     int sum = 0;
+    //     for (int i=0; i < partial_num; i++){
+    //         if (result[idx*partial_num + i] != -100){
+    //             cnt += 1;
+    //             sum += result[idx * partial_num + i];
+    //         }
+    //     }
+
+    //     if ((float(sum)/cnt) > max_val){
+    //         max_val = (float(sum)/cnt);
+    //         max_pos = idx;
+    //     }
+    // }
 
     cudaFree(result);
     cudaFree(device_stones);
