@@ -19,19 +19,18 @@ int Monte_Carlo_Cuda(GameBoard* this_board, int n);
 // no-interface version
 int main(int argc, char** argv)
 {
-    int size = 9;
+    int size = 19;
     GameBoard* board = new GameBoard;
     board_construct(board, size);
 
     int row, col, next_move;
     cin >> row;
     while (row != -1){
-        //printf("aaaaa%d\n", test());
         cin >> col;
         board_addStone(board, row, col, 1);
-        next_move = Monte_Carlo_Cuda(board, 2);
-        //next_move = board_monte_carlo(board);
-        printf("add white stone %d\n", next_move);
+        //next_move = Monte_Carlo_Cuda(board, 2);
+        next_move = board_monte_carlo(board, 2);
+        //printf("add white stone %d\n", next_move);
         while (board_addStone(board, next_move / size, next_move % size, -1) == 0){
             next_move = rand() % (size * size);
         }

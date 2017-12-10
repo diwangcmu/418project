@@ -151,7 +151,6 @@ int host_checkStone(GameBoard* this_board, int row, int col, int state){
             cur_col = neighbors[idx] % s;
             host_clear_visited(this_board);
             if (host_get_liberties(this_board, cur_row, cur_col) == 0){
-                printf("delete\n");
                 host_clear_visited(this_board);
                 host_delete_stone(this_board, cur_row, cur_col);
                 flag = 1;
@@ -226,38 +225,58 @@ kernel_monte_carlo(int* stones, int s, int* result){
     }
 }
 
+int power_size(int x, int y){
+    int p = 1;
+    while (y > 0){
+        p = p * x;
+        y -= 1;
+    }
+    return p;
+}
+
 int Monte_Carlo_Cuda(GameBoard* this_board, int n) {
     int s = this_board->size;
-    int num = s * s * s * s;
+    int ss = s;
+    if (n == 2 and s == 19) ss = 8;
+    if (n == 3 and s == 9) ss = 5;
+    if (n == 3 and s == 19) ss = 4;
+    int num = power_size(ss, 2*n);
+    int partial_num = int(num / (ss * ss));
 
     const int threadsPerBlock = 128;
     const int blocks = (num + threadsPerBlock - 1) / threadsPerBlock;
 
     int result[num];
-    for(int i = 0; i < num; i++) {
-        result[i] = -100;
-    }
+    for(int i = 0; i < num; i++) result[i] = 100;
 
     int stones[num * s * s];
     int move_seq[num * n];
 
     //generating moving sequences
 
-    for (int i=0; i<num * n; i++){
-        move_seq[i] = 0;
+    int startx = 0;
+    int starty = 0;
+    int last_row = this_board->last_move / s;
+    int last_col = this_board->last_move % s;
+    if (last_row + int(ss / 2) >= s){startx = s - ss;}
+    else if (last_row - int(ss / 2) > 0) {startx = last_row - int(ss/2);}
+
+    if (last_col + int(ss / 2) >= s){starty = s - ss;}
+    else if (last_col - int(ss / 2) > 0) {starty = last_col - int(ss/2);}
+
+    int p = 0;
+    //printf("startx = %d, starty = %d\n", startx, starty);
+    for (int i=startx; i<startx + ss; i++){
+        for (int j=starty; j<starty + ss; j++){
+            for (int k=1; k<partial_num; k++){
+                move_seq[p * n] = i * s + j;
+                p += 1;    
+            }
+        }
     }
 
-    int p;
-    for (int i=1; i<num; i++){
-        for (int j=i*n; j<(i+1)*n; j++){
-            move_seq[j] = move_seq[j-n];
-        }
-        p = (i+1) * n - 1;
-        while (move_seq[p] == s*s-1){
-            move_seq[p] = 0;
-            p -= 1;
-        }
-        move_seq[p] += 1;
+    for (int i=0; i<num * n; i++){
+        if (i % n != 0) move_seq[i] = rand() % (s * s);
     }
 
     for (int idx = 0; idx < num; idx ++){
@@ -308,11 +327,7 @@ int Monte_Carlo_Cuda(GameBoard* this_board, int n) {
     // printf("stack size = %u\n", (unsigned)limit);
 
     kernel_monte_carlo<<<blocks, threadsPerBlock>>>(device_stones, s, device_result);
-
     cudaThreadSynchronize();
-
-    int max_pos = rand() % (s * s);
-    float max_val = -101.0;
 
     cudaMemcpy(result, device_result, num * sizeof(int), cudaMemcpyDeviceToHost);
     // for (int i=0; i < num; i++){
@@ -320,30 +335,32 @@ int Monte_Carlo_Cuda(GameBoard* this_board, int n) {
     // }
     // printf("\n");
 
-    for (int idx = 0; idx < num; idx ++){
-        if (result[idx] > max_val){
-            max_val = result[idx];
-            max_pos = move_seq[idx * n];
-        }
-    }
-
-    // int partial_num = s * s;
-    // for (int idx = 0; idx < s*s; idx++){
-    //     int cnt = 0;
-    //     int sum = 0;
-    //     for (int i=0; i < partial_num; i++){
-    //         if (result[idx*partial_num + i] != -100){
-    //             cnt += 1;
-    //             sum += result[idx * partial_num + i];
-    //         }
-    //     }
-
-    //     if ((float(sum)/cnt) > max_val){
-    //         max_val = (float(sum)/cnt);
-    //         max_pos = idx;
+    // for (int idx = 0; idx < num; idx ++){
+    //     if (result[idx] > max_val){
+    //         max_val = result[idx];
+    //         max_pos = move_seq[idx * n];
     //     }
     // }
 
+    int max_pos = rand() % (s * s);
+    float max_val = -101.0;
+    int local_sum = 0;
+    int local_cnt = 0;
+    for (int idx = 0; idx < ss * ss; idx++){
+        local_sum = 0;
+        local_cnt = 0;
+        for (int i=0; i < partial_num; i++){
+            if (result[idx * partial_num + i] != 100){
+                local_cnt += 1;
+                local_sum += result[idx * partial_num + i];
+            }
+        }
+
+        if (float(local_sum) / local_cnt > max_val){
+            max_val = float(local_sum) / local_cnt;
+            max_pos = move_seq[idx * partial_num];
+        }
+    }
     cudaFree(result);
     cudaFree(device_stones);
     cudaFree(device_result);

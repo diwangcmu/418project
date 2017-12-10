@@ -1,12 +1,3 @@
-// #include <readfile.h>
-// struct GameBoard{
-// 	int size;
-// 	int current_player_state; // 1 for black, -1 for white
-// 	int draw[361];
-// 	int eval[361];
-// 	int classify[361];
-// 	int visited[361];
-// };
 #include "readfile.h"
 
 void clear_visited(GameBoard* this_board);
@@ -52,6 +43,7 @@ void clear_visited(GameBoard* this_board){
 void board_construct(GameBoard* this_board, int s){
 	this_board->size = s;
 	this_board->current_player_state = 1;
+	this_board->last_move = -1;
 	for (int i=0; i<s; i++){
 		for (int j=0; j<s; j++){
 			this_board->draw[i*s+j] = 0;
@@ -97,6 +89,7 @@ int board_addStone(GameBoard* this_board, int row, int col, int state){
 		this_board->draw[row * s + col] = 0;
 		return 0;
 	}
+	this_board->last_move = row * s + col;
 	board_get_terr(this_board);
 	//board_printclassify(this_board);
 	return 1;
@@ -205,7 +198,6 @@ int checkStone(GameBoard* this_board, int row, int col, int state){
 			cur_col = neighbors[idx] % s;
 			clear_visited(this_board);
 			if (get_liberties(this_board, cur_row, cur_col) == 0){
-				printf("delete\n");
 				clear_visited(this_board);
 				delete_stone(this_board, cur_row, cur_col);
 				flag = 1;
@@ -215,51 +207,94 @@ int checkStone(GameBoard* this_board, int row, int col, int state){
 	return flag;
 }
 
-int board_monte_carlo(GameBoard* this_board){
+int power_s(int x, int y){
+    int p = 1;
+    while (y > 0){
+        p = p * x;
+        y -= 1;
+    }
+    return p;
+}
+
+int board_monte_carlo(GameBoard* this_board, int n){
 	int s = this_board->size;
+    int ss = s;
+    if (n == 2 and s == 19) ss = 8;
+    if (n == 3 and s == 9) ss = 5;
+    if (n == 3 and s == 19) ss = 4;
+    int num = power_s(ss, 2*n);
+    int partial_num = int(num / (ss * ss));
+
+    int startx = 0;
+    int starty = 0;
+    int last_row = this_board->last_move / s;
+    int last_col = this_board->last_move % s;
+    if (last_row + int(ss / 2) >= s){startx = s - ss;}
+    else if (last_row - int(ss / 2) > 0) {startx = last_row - int(ss/2);}
+
+    if (last_col + int(ss / 2) >= s){starty = s - ss;}
+    else if (last_col - int(ss / 2) > 0) {starty = last_col - int(ss/2);}
+
 	int max_pos = rand() % (s * s);
-	int max_val = -1;
+	float max_val = -101.0;
 
-	for (int next_step = 0; next_step < s*s; next_step ++){
-		if (this_board->draw[next_step] == 0){
-			GameBoard* next_board = new GameBoard;
-			board_construct(next_board, s);
-			for (int i=0; i<s; i++){
-				for (int j=0; j<s; j++){
-					if (this_board->draw[i*s+j] != 0){
-						if (this_board->draw[i*s+j] == 1){
-							board_addStone(next_board, i, j, 1);
-						} else {
-							board_addStone(next_board, i, j, -1);
+	int next_step;
+	for (int ii=startx; ii<startx + ss; ii++){
+		for (int jj=starty; jj<starty + ss; jj++){
+			next_step = ii * s + jj;
+			if (this_board->draw[next_step] == 0){
+				int local_cnt = 0;
+				int local_sum = 0;
+				for (int p = 0; p < partial_num; p++){
+					GameBoard* next_board = new GameBoard;
+					board_construct(next_board, s);
+					for (int i=0; i<s; i++){
+						for (int j=0; j<s; j++){
+							if (this_board->draw[i*s+j] != 0){
+								if (this_board->draw[i*s+j] == 1){
+									board_addStone(next_board, i, j, 1);
+								} else {
+									board_addStone(next_board, i, j, -1);
+								}
+							}
 						}
 					}
-				}
-			}
 
-			int flag = board_addStone(next_board, next_step / s, next_step % s, -1);
-			if (flag != 0){
-				board_get_terr(next_board);
-
-				int w_count = 0;
-				for (int i=0; i<s; i++){
-					for (int j=0; j<s; j++){
-						if (next_board->classify[i*s+j] == 1){
-							w_count -= 1;
-						} else {
-							w_count += 1;
+					int flag = board_addStone(next_board, next_step / s, next_step % s, -1);
+					int next_next;
+					int type = -1;
+					if (flag == 1){
+						for (int k=0; k<n-1; k++){
+							next_next = rand() % (s * s);
+							flag = board_addStone(next_board, next_next / s, next_next % s, type);
+							type *= (-1);
+							if (flag == 0) break;
 						}
 					}
+					if (flag != 0){
+						board_get_terr(next_board);
+						int w_count = 0;
+						for (int i=0; i<s; i++){
+							for (int j=0; j<s; j++){
+								if (next_board->classify[i*s+j] == 1){
+									w_count -= 1;
+								} else if (next_board->classify[i*s+j] == -1){
+									w_count += 1;
+								}
+							}
+						}
+						local_cnt += 1;
+						local_sum += w_count;
+					}
 				}
-
-				// printf("(%d, %d)\n", next_step, w_count);
-
-				if (w_count > max_val){
-					max_val = w_count;
-					max_pos = next_step;
-				}
+				if (float(local_sum) / local_cnt > max_val){
+            		max_val = float(local_sum) / local_cnt;
+            		max_pos = next_step;
+        		}
 			}
 		}
 	}
+
 	return max_pos;
 }
 
