@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  8 DEC 2017 22:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  9 DEC 2017 20:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -591,19 +591,22 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@everytoks=\toks39
 \@floatcapt=\box42
 )
+(/usr/local/texlive/2015/texmf-dist/tex/latex/multirow/multirow.sty
+\bigstrutjot=\dimen184
+)
 (/usr/local/texlive/2015/texmf-dist/tex/latex/listings/listings.sty
 \lst@mode=\count132
 \lst@gtempboxa=\box43
 \lst@token=\toks40
 \lst@length=\count133
-\lst@currlwidth=\dimen184
+\lst@currlwidth=\dimen185
 \lst@column=\count134
 \lst@pos=\count135
-\lst@lostspace=\dimen185
-\lst@width=\dimen186
+\lst@lostspace=\dimen186
+\lst@width=\dimen187
 \lst@newlines=\count136
 \lst@lineno=\count137
-\lst@maxwidth=\dimen187
+\lst@maxwidth=\dimen188
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2014/09/06 1.5e (Carsten Heinz)
@@ -615,25 +618,29 @@ File: lstmisc.sty 2014/09/06 1.5e (Carsten Heinz)
 File: listings.cfg 2014/09/06 1.5e listings configuration
 ))
 Package: listings 2014/09/06 1.5e (Carsten Heinz)
-\zzsize=\dimen188
-\kwsize=\dimen189
+\zzsize=\dimen189
+\kwsize=\dimen190
 \zzlstwidth=\skip55
 
-(./writeup.aux)
+(./writeup.aux
+
+LaTeX Warning: Label `my-label' multiply defined.
+
+)
 \openout1 = `writeup.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 76.
+LaTeX Font Info:    ... okay on input line 76.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 76.
+LaTeX Font Info:    ... okay on input line 76.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 76.
+LaTeX Font Info:    ... okay on input line 76.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 76.
+LaTeX Font Info:    ... okay on input line 76.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 76.
+LaTeX Font Info:    ... okay on input line 76.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 76.
+LaTeX Font Info:    ... okay on input line 76.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -672,13 +679,13 @@ LaTeX Font Info:    ... okay on input line 75.
 (/usr/local/texlive/2015/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count140
-\scratchdimen=\dimen190
+\scratchdimen=\dimen191
 \scratchbox=\box45
 \nofMPsegments=\count141
 \nofMParguments=\count142
 \everyMPshowfont=\toks41
 \MPscratchCnt=\count143
-\MPscratchDim=\dimen191
+\MPscratchDim=\dimen192
 \MPnumerator=\count144
 \makeMPintoPDFobject=\count145
 \everyMPtoPDFconversion=\toks42
@@ -731,14 +738,14 @@ ABD: EveryShipout initializing macros
 Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
 ick labels; missing features). Consider writing \pgfplotsset{compat=1.12} into 
 your preamble.
- on input line 75.
+ on input line 76.
 
 \c@lstlisting=\count146
-LaTeX Font Info:    Try loading font information for U+msa on input line 85.
+LaTeX Font Info:    Try loading font information for U+msa on input line 86.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 85.
+LaTeX Font Info:    Try loading font information for U+msb on input line 86.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -755,55 +762,104 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 <Alpha_Beta.png, id=15, 552.0625pt x 476.78125pt>
 File: Alpha_Beta.png Graphic file (type png)
  <use Alpha_Beta.png>
-Package pdftex.def Info: Alpha_Beta.png used on input line 96.
+Package pdftex.def Info: Alpha_Beta.png used on input line 97.
 (pdftex.def)             Requested size: 234.8775pt x 202.85123pt.
  [2]
 <ld_pro_1.png, id=21, 304.13625pt x 309.155pt>
 File: ld_pro_1.png Graphic file (type png)
  <use ld_pro_1.png>
-Package pdftex.def Info: ld_pro_1.png used on input line 103.
+Package pdftex.def Info: ld_pro_1.png used on input line 104.
 (pdftex.def)             Requested size: 140.92793pt x 143.25554pt.
 
 <bad_1.png, id=22, 296.10625pt x 294.09875pt>
 File: bad_1.png Graphic file (type png)
  <use bad_1.png>
-Package pdftex.def Info: bad_1.png used on input line 111.
+Package pdftex.def Info: bad_1.png used on input line 112.
 (pdftex.def)             Requested size: 140.92793pt x 139.97658pt.
  [3 <./Alpha_Beta.png> <./ld_pro_1.png>] <bad_2.png, id=28, 300.12125pt x 303.1
 325pt>
 File: bad_2.png Graphic file (type png)
 
 <use bad_2.png>
-Package pdftex.def Info: bad_2.png used on input line 116.
+Package pdftex.def Info: bad_2.png used on input line 117.
 (pdftex.def)             Requested size: 140.92793pt x 142.34277pt.
  [4 <./bad_1.png>] [5 <./bad_2.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 130--131
+Underfull \hbox (badness 10000) in paragraph at lines 131--132
 
  []
 
-[6] [7] [8] (./writeup.aux) ) 
+
+Overfull \hbox (28.97629pt too wide) in paragraph at lines 142--151
+ [][] 
+ []
+
+[6]
+Overfull \hbox (27.1148pt too wide) in paragraph at lines 169--206
+[][] []
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 169--206
+
+ []
+
+[7]
+Overfull \hbox (5.87347pt too wide) in paragraph at lines 215--224
+ [][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 207--224
+
+ []
+
+[8] <game_1.png, id=49, 606.265pt x 601.24625pt>
+File: game_1.png Graphic file (type png)
+ <use game_1.png>
+Package pdftex.def Info: game_1.png used on input line 231.
+(pdftex.def)             Requested size: 234.8775pt x 232.93463pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 225--233
+
+ []
+
+[9] <game_2.png, id=53, 606.265pt x 602.25pt>
+File: game_2.png Graphic file (type png)
+ <use game_2.png>
+Package pdftex.def Info: game_2.png used on input line 237.
+(pdftex.def)             Requested size: 234.8775pt x 233.3235pt.
+
+<game_3.png, id=54, 602.25pt x 601.24625pt>
+File: game_3.png Graphic file (type png)
+ <use game_3.png>
+Package pdftex.def Info: game_3.png used on input line 243.
+(pdftex.def)             Requested size: 234.8775pt x 234.48508pt.
+ [10 <./game_1.png> <./game_2.png>] [11 <./game_3.png>] [12] (./writeup.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 22994 strings out of 493089
- 566017 string characters out of 6134842
- 723071 words of memory out of 5000000
- 26067 multiletter control sequences out of 15000+600000
+ 23496 strings out of 493089
+ 580624 string characters out of 6134842
+ 738071 words of memory out of 5000000
+ 26562 multiletter control sequences out of 15000+600000
  10321 words of font info for 39 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,12n,77p,860b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2015/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmr10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr12.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmr8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmsy10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmsy8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmti10.pfb>
-Output written on writeup.pdf (8 pages, 167452 bytes).
+ 55i,15n,77p,860b,1768s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
+sr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
+/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/lo
+cal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loc
+al/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local
+/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on writeup.pdf (12 pages, 350237 bytes).
 PDF statistics:
- 79 PDF objects out of 1000 (max. 8388607)
- 51 compressed objects within 1 object stream
+ 97 PDF objects out of 1000 (max. 8388607)
+ 59 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 33 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 48 words of extra memory for PDF output out of 10000 (max. 10000000)
 
