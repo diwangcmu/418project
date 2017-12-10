@@ -1,5 +1,9 @@
 ## Go AI
 Project for 15-418 Fall 2017, by Di Wang (diw2) and Bo Gao (bgao).
+### Final Report
+[Final report](https://github.com/diwangcmu/418project/blob/master/writeup/writeup.pdf)
+The following is the proposal and the checkpoint report.
+
 ### Summary		
 
 We are going to implement a Go AI using tree search algorithm on CUDA in the GHC clusters, and report a detailed performance analysis with respect to different factors including board size, CUDA block size, memory access frequency.
