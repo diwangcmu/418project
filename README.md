@@ -4,6 +4,47 @@ Project for 15-418 Fall 2017, by Di Wang (diw2) and Bo Gao (bgao).
 [Final report](https://github.com/diwangcmu/418project/blob/master/writeup/writeup.pdf)
 The following is the proposal and the checkpoint report.
 
+### Instructions:
+For sequential life-and-death problem:
+
+	$ cd ld_src
+	
+	$ g++ -std=c++11 -O2 readfile.cpp -o seq -lm
+	
+	$ ./seq -s test.txt
+
+For parallel life-and-death problem (need CUDA):
+
+	$ cd ld_src
+	
+	uncomment line 87 in readfile.cpp
+	
+	comment line 87 in readfile.cpp
+	
+	$ make
+	
+	$ ./cudaSearch -s test.txt
+
+For sequential full board AI:
+
+	$ cd ai_src
+	
+	$ make
+	
+	$ ./cudago
+
+For parallel full board AI (need CUDA):
+
+	$ cd ai_src
+	
+	uncomment line 31 in go_Decision.cpp
+	
+	comment line 32 in go_Decision.cpp
+	
+	$ make
+	
+	$ ./cudago
+
 ### Summary		
 
 We are going to implement a Go AI using tree search algorithm on CUDA in the GHC clusters, and report a detailed performance analysis with respect to different factors including board size, CUDA block size, memory access frequency.
