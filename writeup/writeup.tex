@@ -87,7 +87,7 @@ Go is an abstract strategy zero-sum board game for two players, in which the aim
 \\
 However, with the advent of AlphaGo in March 2016, and AlphaGo Zero in May 2017, more and more AIs become able to beat professional Go players. All of them use deep learning to train the neural network, both from human and computer playing \cite{NA}. This includes both pattern matching on partial boards, as well as pan-board calculations.\\
 Because we lacked the knowledge of complex pattern matching, we decided to use only the idea of mini-max and Alpha Beta pruning, and to try to incorporate parallelism using CUDA. The minimax search here is definitely the most expensive part of the program, and it can benefit a lot from parallelism. Also, the good thing is there would be no dependencies between different paths as long as they do not write on the global board.\\
-However, without ways to bring down the total number of moves to search for using the aforementioned pattern matching idea, we would try to come up with some heuristic that would allow us to judge the board state. In other words, we would examine the board state and give a score for Black. If it is Black's move it would want to maximize the minimum of all future scores after the next White's move, and vice versa for White. Hence the minimax algorithm.
+However, without ways to bring down the total number of moves to search for using the aforementioned pattern matching idea, we would try to come up with some heuristic that would allow us to judge the board state. In other words, we would examine the board state and give a score for Black. If it is Black's move it would want to maximize the minimum of all future scores after the next White's move, and vice versa for White. This is the minimax algorithm. In fact, after some trials and observations on the AI's moves, we finds out that the Monte-Carlo Tree Search algorithm may perform better on the moves. The MCTS algorithm basically generates some random moves afterwards, and returns the optimal first move with the highest average efficiency of territory surrounding. The only difference with Minimax Tree is that we use a find-max-average iteration instead of a find-max-min iteration after each potential-move-sequences returns its evaluation. \newline
 In addition, our algorithm would also include Alpha-beta pruning which is an adversarial search algorithm used commonly for machine playing of two-player games. It is a search algorithm that seeks to decrease the number of nodes that are evaluated by the minimax algorithm in its search tree. It stops completely evaluating a move when at least one possibility has been found that proves the move to be worse than a previously examined move. Such moves need not be evaluated further. We would use this to bring down the total number of checks. \\
 Various research has been done on the heuristic for board/move evaluation \cite{ME}. However, even for a rough approximation, considerable accuracy is only achieved by training in a convolutional neural network. The more layers, the higher the accuracy, but even so the maximum accuracy achieved is only $ \ 55.2\%$ \cite{ME}, which leaves room for improvement, but this is not an important topic in this project. We would adopt a similar heuristic, yet simpler. \\
 \section*{Approach}
@@ -105,7 +105,7 @@ Therefore our sequential algorithm would exhaust all the possible end states usi
     \includegraphics[width=0.3\textwidth]{ld_pro_1.png}
     \caption{Example life and death problem with $m = 5$}
 \end{figure}
-For this problem, if $n = 2$, then we are parallelizing on the first White move and Black move. Therefore the total number of threads is 25 in this case. Each CUDA thread, in the kernel, would get a copy of the board state with the first two moves placed, and then use the aforementioned Alpha-Beta pruning algorithm to decide if this path has all subsequent paths resulting in DEAD or at least one resulting in ALIVE. Then the sequential algorithm on the host would use this to decide if White can kill the Black, and if so, under which move(s). \\
+For this problem, we are parallelizing on the first White move. Therefore the total number of threads would be 5 in this case. Each CUDA thread, in the kernel, would get a copy of the board state with the first two moves placed, and then use the aforementioned Alpha-Beta pruning algorithm to decide if this path has all subsequent paths resulting in DEAD or at least one resulting in ALIVE. Then the sequential algorithm on the host would use this to decide if White can kill the Black, and if so, under which move(s). \\
 The results for the solver are accurate on $m \leq 8$ with considerable speed. This will be analyzed more in \textbf{Result}. \\
 With this life-and-death problem solver handy, we were able to implement the full game AI. As introduced in \textbf{Background}, the number of possible Go board states greatly exceeds that of other board games, making it impossible to do a brute force search on all the possibilities. The approach we took was, again, parallelize on most of all possible board states after $n$ moves, where $n$ can be varied. We were able to use some Go intuition to eliminate many of the blatantly bad cases, for example when jumping far from the last opponent's move, or placing in a dangerous cross soon to be captured (examples below).
 \begin{figure}[H]
@@ -127,7 +127,8 @@ Our design and approach described above went through a series of trials and revi
 \item CUDA not fit for OOP: We first designed the game semantics in an object-oriented programing (OOP) style. However, we soon realized that in CUDA, there is no way for device functions to call host functions. We first tried to get around that by converting everything to device, but this is not only confusing, hard to implement, but also slow in practice. Therefore we finally changed the idea and made it more adaptive by C++.
 \item Host pointers not accessible to device: Similar to above, the device cannot access host struct pointers. Therefore we modified the structure again so that we were passing structs directly instead of their pointers. 
 \item Limitation on size of stack in CUDA: it turned out that our kernel implementation, which would call many device functions interchangeably, would  make the stack exceed the default size of 1024. Therefore we had to increase that as we went along. 
-\item Limitation on the number of device functions called: Our original approach for life-and-death problems had a host function invoke the kernel many times, but the results were mostly inaccurate. It turned out that in our implementation the kernel could only be called 5 times, and would silently die after that. Therefore we modified the division of work so that the host function would initialize the array with indicator bits telling which task each thread should perform. This is similar to the style in Assignment 2 Rendering. 
+\item Limitation on the number of device functions called: Our original approach for life-and-death problems had a host function invoke the kernel many times, but the results were mostly inaccurate. It turned out that in our implementation the kernel could only be called 5 times, and would silently die after that. Therefore we modified the division of work so that the host function would initialize the array with indicator bits telling which task each thread should perform. This is similar to the style in Assignment 2 Rendering.
+\item Limitation on the GPU memory: Allocating a local memory with very huge size inside the GPU is forbidden. So that's why when we are doing the full-board AI with size 19, we are not able to create so many local copies of the board, while we are just considering the potential moves near the previous move by the other player. 
 \end{enumerate}
 To sum up, the kernel should only be used to calculate something or do some uniform operation, but not as a recursive routine. In order to avoid the above problems, we must delegate some tasks to the sequential part of the implementation.\\
 
@@ -153,37 +154,37 @@ Steps & \begin{tabular}[c]{@{}l@{}}Time of serialized\\ algorithm on CPU\\ in mi
 %%%%%%
 \begin{tikzpicture}
 \begin{axis} [
-	title={Speedup vs. Step},
-	xlabel={Step},
-	ylabel={Speedup against total runtime of CUDA},
-	grid style=dashed,
+  title={Speedup vs. Step},
+  xlabel={Step},
+  ylabel={Speedup against total runtime of CUDA},
+  grid style=dashed,
 ]
 \addplot[
-	color=blue,
-	mark=square,
-	]
-	plot coordinates {
-	   (1, 3.74315)(2, 4.62636)(3, 6.16723)(4, 6.88512)(5, 8.42850)
-	};
-	%\addlegendentry{easy\_1024}
+  color=blue,
+  mark=square,
+  ]
+  plot coordinates {
+     (1, 3.74315)(2, 4.62636)(3, 6.16723)(4, 6.88512)(5, 8.42850)
+  };
+  %\addlegendentry{easy\_1024}
 \end{axis}
 \end{tikzpicture}
 %%%
 \begin{tikzpicture}
 \begin{axis} [
-	title={Speedup of critical region vs. Step},
-	xlabel={Step},
-	ylabel={Speedup against total kernel runtime},
-	grid style=dashed,
+  title={Speedup of critical region vs. Step},
+  xlabel={Step},
+  ylabel={Speedup against total kernel runtime},
+  grid style=dashed,
 ]
 \addplot[
-	color=green,
-	mark=square,
-	]
-	plot coordinates {
-	   (1, 623.0616)(2, 993.0368)(3, 1310.9235)(4, 1471.7722)(5, 1116.79094)
-	};
-	%\addlegendentry{easy\_1024}
+  color=green,
+  mark=square,
+  ]
+  plot coordinates {
+     (1, 623.0616)(2, 993.0368)(3, 1310.9235)(4, 1471.7722)(5, 1116.79094)
+  };
+  %\addlegendentry{easy\_1024}
 \end{axis}
 \end{tikzpicture}
 First of all, the reason that the sequential algorithm actually increases in runtime is because it needs the previously placed stones to calculate the potential board state of each proceeding path. This is not easily avoidable for the sequential algorithm, as it can only contain one copy of the board state at each timestamp (otherwise memory limit would be exceeded if each path has one copy). This is not the case for the CUDA parallel algorithm, because we have allocated enough memory and initialized the states for each possible path beforehand, which is the main difference between the columns \textit{Time of Cuda Kernel vs. Time of parallel algorithm}. \\
@@ -246,7 +247,16 @@ The White move above (on the right bottom corner) successfully cuts the Black pi
     \caption{Example game 3.}
 \end{figure}
 The White move above successfully secures the two eyes of the White piece, making it alive. \\
-In summary, even though the AI is unable to make precise predictions in battles that require clear and sophisticated judgement, sometimes it gets the locally optimal solution. Also, it is often able to make good moves that direct the overall of the game, which is an important ability often lacking in amateur players. These qualities allow the AI to be a good teacher and practice player for amateur players. 
+In summary, even though the AI is unable to make precise predictions in battles that require clear and sophisticated judgment, sometimes it gets the locally optimal solution. Also, it is often able to make good moves that direct the overall of the game, which is an important ability often lacking in amateur players. These qualities allow the AI to be a good teacher and practice player for amateur players. 
+
+\newpage
+\section*{Potential Improvement $\&$ Further Research} 
+
+Our choice of using CUDA to write the parallel version of algorithms is not bad, since when we are using kernels to compute the board evaluations, the data-parallel speedup is fair on CUDA. However, during the process of implementing CUDA Searching algorithm, it turns out that CUDA may be the best platform. Due to the limitation of CUDA kernel, the only part should be the computing process, but not the searching process. But in the game of Go, searching is unavoidable since we always need to consider future moves and compare all future situations during the game. \newline
+For the life-and-death problem solver, what we could possible do is similar to the AI, that generating some moving sequences within the range. The number of moves k in the sequence could be large, and we could say "no solution" if none of the scenarios gives us the correct answer. In this method, not only there's no recursive calls inside kernel functions (which will avoid us from so many problems), but we can parallel on all such scenarios to check live for Black stones. Since with the knowledge of Go, most life-death problems could be finished in a certain number of moves without tie. This will be a legit solution to sacrifice accuracy but improve efficiency, but we don't have time to implement it. \newline
+For the AI, neural network is definitely a better approach, both to improve our "naive" heuristics and to learn if more game-data provided. Also, although challenging, an intuitive way of paralleling neural network would be simply paralleling the computation of transfer function.
+However, because of the lack of datasets and limited time, we could not get this algorithm implemented.
+
 \section*{Distribution of work} The distribution of work is $50\% - 50\%$.
 \newpage
 
