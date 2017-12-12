@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  11 DEC 2017 16:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  11 DEC 2017 21:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -774,82 +774,82 @@ File: ld_pro_1.png Graphic file (type png)
  <use ld_pro_1.png>
 Package pdftex.def Info: ld_pro_1.png used on input line 105.
 (pdftex.def)             Requested size: 140.92793pt x 143.25554pt.
-
-<bad_1.png, id=22, 296.10625pt x 294.09875pt>
+ [3 <./Alpha_Beta.png>] <bad_1.png, id=26, 296.10625pt x 294.09875pt>
 File: bad_1.png Graphic file (type png)
  <use bad_1.png>
 Package pdftex.def Info: bad_1.png used on input line 113.
 (pdftex.def)             Requested size: 140.92793pt x 139.97658pt.
- [3 <./Alpha_Beta.png> <./ld_pro_1.png>] <bad_2.png, id=28, 300.12125pt x 303.1
-325pt>
-File: bad_2.png Graphic file (type png)
 
-<use bad_2.png>
+<bad_2.png, id=27, 300.12125pt x 303.1325pt>
+File: bad_2.png Graphic file (type png)
+ <use bad_2.png>
 Package pdftex.def Info: bad_2.png used on input line 118.
 (pdftex.def)             Requested size: 140.92793pt x 142.34277pt.
- [4 <./bad_1.png>] [5 <./bad_2.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 132--133
+ [4 <./ld_pro_1.png>] [5 <./bad_1.png> <./bad_2.png>] [6]
+Underfull \hbox (badness 10000) in paragraph at lines 133--134
 
  []
 
 
-Overfull \hbox (28.97629pt too wide) in paragraph at lines 143--152
+Overfull \hbox (28.97629pt too wide) in paragraph at lines 144--153
  [][] 
  []
 
-[6]
-Overfull \hbox (27.1148pt too wide) in paragraph at lines 170--207
+
+Overfull \hbox (27.1148pt too wide) in paragraph at lines 171--208
 [][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 170--207
+Underfull \hbox (badness 10000) in paragraph at lines 171--208
 
  []
 
-[7]
-Overfull \hbox (5.87347pt too wide) in paragraph at lines 216--225
+[7] [8]
+Overfull \hbox (5.87347pt too wide) in paragraph at lines 217--226
  [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 208--225
+Underfull \hbox (badness 10000) in paragraph at lines 209--226
 
  []
 
-[8] <game_1.png, id=50, 606.265pt x 601.24625pt>
+<game_1.png, id=50, 606.265pt x 601.24625pt>
 File: game_1.png Graphic file (type png)
  <use game_1.png>
-Package pdftex.def Info: game_1.png used on input line 233.
+Package pdftex.def Info: game_1.png used on input line 234.
 (pdftex.def)             Requested size: 234.8775pt x 232.93463pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 226--235
+Underfull \hbox (badness 10000) in paragraph at lines 227--236
 
  []
 
-[9] <game_2.png, id=54, 606.265pt x 602.25pt>
+[9] [10] <game_2.png, id=57, 606.265pt x 602.25pt>
 File: game_2.png Graphic file (type png)
  <use game_2.png>
-Package pdftex.def Info: game_2.png used on input line 239.
+Package pdftex.def Info: game_2.png used on input line 240.
 (pdftex.def)             Requested size: 234.8775pt x 233.3235pt.
- [10 <./game_1.png>] <game_3.png, id=59, 602.25pt x 601.24625pt>
+
+<game_3.png, id=58, 602.25pt x 601.24625pt>
 File: game_3.png Graphic file (type png)
  <use game_3.png>
-Package pdftex.def Info: game_3.png used on input line 245.
+Package pdftex.def Info: game_3.png used on input line 246.
 (pdftex.def)             Requested size: 234.8775pt x 234.48508pt.
- [11 <./game_2.png> <./game_3.png>] [12] [13] (./writeup.aux)
+ [11 <./game_1.png> <./game_2.png>] [12 <./game_3.png>] [13] [14] (./writeup.au
+x)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 23501 strings out of 493089
- 580681 string characters out of 6134842
- 738071 words of memory out of 5000000
- 26565 multiletter control sequences out of 15000+600000
- 11226 words of font info for 42 fonts, out of 8000000 for 9000
+ 23516 strings out of 493089
+ 580878 string characters out of 6134842
+ 739071 words of memory out of 5000000
+ 26578 multiletter control sequences out of 15000+600000
+ 14439 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,15n,77p,876b,1768s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,15n,77p,976b,1768s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
@@ -860,10 +860,10 @@ cal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/loc
 al/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loca
 l/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/
 texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on writeup.pdf (13 pages, 361083 bytes).
+Output written on writeup.pdf (14 pages, 364518 bytes).
 PDF statistics:
- 105 PDF objects out of 1000 (max. 8388607)
- 65 compressed objects within 1 object stream
+ 108 PDF objects out of 1000 (max. 8388607)
+ 67 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  48 words of extra memory for PDF output out of 10000 (max. 10000000)
 
